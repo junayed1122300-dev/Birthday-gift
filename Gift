@@ -1,0 +1,41 @@
+from pathlib import Path
+
+html = r'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy Birthday, Raiyan Jannat 💗</title>
+<style>
+*{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#ffd6e7,#f7d9ff,#d9efff);color:#5b3150;display:grid;place-items:center;overflow:auto}
+.wrap{width:min(92vw,520px);margin:28px auto}.card{position:relative;background:rgba(255,255,255,.78);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);border-radius:30px;padding:28px;text-align:center;box-shadow:0 20px 60px rgba(111,55,100,.2)}
+h1{font-size:clamp(30px,8vw,46px);margin:8px 0;color:#d34f87}.name{font-size:25px;font-weight:800;margin:4px 0 18px}.cake{font-size:66px;animation:bounce 1.8s infinite}.message{font-size:17px;line-height:1.7;margin:18px 4px}.photo{width:190px;height:190px;margin:18px auto;border-radius:24px;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#ffe5f0);border:3px dashed #ef8eb5;overflow:hidden;color:#c65c86}.photo img{width:100%;height:100%;object-fit:cover;display:none}.buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}button,label{border:0;border-radius:999px;padding:12px 18px;background:#e85f9a;color:white;font-weight:700;cursor:pointer;box-shadow:0 7px 18px rgba(210,76,132,.22)}button.alt,label.alt{background:#fff;color:#c64e82;border:1px solid #f1b0c9}input{display:none}.heart{position:fixed;pointer-events:none;animation:float 4s linear forwards;font-size:22px}.footer{font-size:12px;opacity:.65;margin-top:18px}@keyframes bounce{50%{transform:translateY(-7px)}}@keyframes float{from{transform:translateY(0) scale(.8);opacity:1}to{transform:translateY(-110vh) scale(1.5);opacity:0}}
+</style>
+</head>
+<body>
+<div class="wrap"><main class="card">
+<div class="cake">🎂</div>
+<h1>Happy Birthday!</h1>
+<div class="name">Raiyan Jannat 💗🌸</div>
+<div class="photo" id="photoBox"><span id="placeholder">📸<br>Tap “Add Photo”</span><img id="photo"></div>
+<p class="message">May your special day be filled with happiness, beautiful memories, endless smiles, and lots of love. 🥳🎁<br><br>Wishing you a wonderful birthday and a year full of beautiful moments! ✨🌷</p>
+<div class="buttons">
+<label for="photoInput" class="alt">📸 Add Photo</label>
+<button id="music">🎵 Play Birthday Music</button>
+<button id="hearts">💖 Make It Sparkle</button>
+</div>
+<input id="photoInput" type="file" accept="image/*">
+<div class="footer">A little digital gift made with 💗</div>
+</main></div>
+<script>
+const input=document.getElementById('photoInput'), img=document.getElementById('photo'), ph=document.getElementById('placeholder');
+input.onchange=()=>{const f=input.files[0];if(!f)return;img.src=URL.createObjectURL(f);img.style.display='block';ph.style.display='none'};
+document.getElementById('hearts').onclick=()=>{for(let i=0;i<24;i++){const s=document.createElement('span');s.className='heart';s.textContent=['💗','🌸','✨','💖'][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+'vw';s.style.bottom='-20px';s.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}};
+let ctx,playing=false;
+document.getElementById('music').onclick=async()=>{const b=document.getElementById('music'); if(playing){playing=false;b.textContent='🎵 Play Birthday Music';return} playing=true;b.textContent='⏸ Stop Birthday Music';ctx=new (window.AudioContext||window.webkitAudioContext)();const notes=[261.63,261.63,293.66,261.63,349.23,329.63,261.63,261.63,293.66,261.63,392,349.23];let t=ctx.currentTime+.05;notes.forEach((n,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=n;o.type='sine';g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.28);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.3);t+=.31});setTimeout(()=>{if(playing){playing=false;b.textContent='🎵 Play Birthday Music'}},notes.length*310+300)};
+</script>
+</body></html>'''
+
+path = Path("/mnt/data/raiyan_jannat_birthday_gift.html")
+path.write_text(html, encoding="utf-8")
+print(f"[Open the clickable birthday webpage](sandbox:{path})")
